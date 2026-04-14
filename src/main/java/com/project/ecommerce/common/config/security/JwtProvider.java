@@ -20,7 +20,7 @@ import java.util.List;
 @Component
 public class JwtProvider {
 
-    @Value("${jwt.secret}")
+    @Value("${spring.jwt.secret}")
     private String secret;
     private static final long ACCESS_EXPIRY = 1000 * 60 * 15;
     private static final long REFRESH_EXPIRY = 1000 * 60 * 60 * 24 * 7;
