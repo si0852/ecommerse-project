@@ -1,10 +1,14 @@
 package com.project.ecommerce.common.config.security;
 
+import com.project.ecommerce.domain.user.service.UserDetailsService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,7 +22,11 @@ import java.util.Date;
 import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public class JwtProvider {
+
+    private final Logger LOGGER = LoggerFactory.getLogger(JwtProvider.class);
+    private final UserDetailsService userDetailsService;
 
     @Value("${spring.jwt.secret}")
     private String secret;
@@ -50,10 +58,12 @@ public class JwtProvider {
 
     public Authentication getAuthentication(String token) {
         Claims claims = Jwts.parser().verifyWith(key()).build().parseSignedClaims(token).getPayload();
-        List<SimpleGrantedAuthority> authorities = ((List<String>) claims.get("roles")).stream().map(SimpleGrantedAuthority::new).toList();
 
-        UserDetails user = new User(claims.getSubject(), "", authorities);
+        String userId = claims.getSubject();
 
-        return new UsernamePasswordAuthenticationToken(user, token, authorities);
+        UserDetails user = userDetailsService.loadUserByUsername(userId);
+
+        return new UsernamePasswordAuthenticationToken(user, token, user.getAuthorities());
     }
+
 }
