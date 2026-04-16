@@ -1,7 +1,7 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '4.0.5'
-	id 'io.spring.dependency-management' version '1.1.7'
+	id 'org.springframework.boot' version '3.2.5'
+	id 'io.spring.dependency-management' version '1.1.5'
 }
 
 group = 'com.project'
@@ -18,42 +18,43 @@ repositories {
 }
 
 dependencies {
+	// 1. 핵심 스타터
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	implementation 'org.springframework.boot:spring-boot-starter-webmvc'
+	implementation 'org.springframework.boot:spring-boot-starter-web' // webmvc -> web
 
+	// 2. Querydsl (Spring Boot 3.x + Jakarta용 설정)
+	implementation 'com.querydsl:querydsl-jpa:5.1.0:jakarta'
+	annotationProcessor "com.querydsl:querydsl-apt:5.1.0:jakarta"
 
+	// JPA 에러 방지를 위해 명시적 추가
+	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
 
-	implementation 'org.springframework.boot:spring-boot-h2console'
+	// 3. DB 및 라이브러리
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'com.mysql:mysql-connector-j'
-	implementation 'org.flywaydb:flyway-core'         // DB 마이그레이션 (스키마 버전 관리)
+	implementation 'org.flywaydb:flyway-core'
 	implementation 'org.flywaydb:flyway-mysql'
 
+	// 4. JWT (버전 유지)
 	implementation 'io.jsonwebtoken:jjwt-api:0.12.5'
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.5'
 	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.5'
 
-//	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-
-	annotationProcessor 'org.projectlombok:lombok'
+	// 5. Lombok & Mapstruct
 	compileOnly 'org.projectlombok:lombok'
-	implementation 'org.mapstruct:mapstruct:1.6.0'
-	annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.0'
-	implementation 'com.querydsl:querydsl-jpa:5.1.0:jakarta'
-	annotationProcessor "com.querydsl:querydsl-apt:5.1.0:jakarta"
+	annotationProcessor 'org.projectlombok:lombok'
+	implementation 'org.mapstruct:mapstruct:1.6.0.Beta1'
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.0.Beta1'
 
-	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.2'
+	// 6. Swagger (Spring Boot 3.x 대응 버전으로 변경)
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0'
 
-
-	testImplementation 'org.springframework.boot:spring-boot-starter-data-jpa-test'
-	testImplementation 'org.springframework.boot:spring-boot-starter-security-test'
-	testImplementation 'org.springframework.boot:spring-boot-starter-validation-test'
-	testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
-	testCompileOnly 'org.projectlombok:lombok'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-	testAnnotationProcessor 'org.projectlombok:lombok'
+	// 7. Test
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
 }
 
 tasks.named('test') {
