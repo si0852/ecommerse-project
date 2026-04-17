@@ -3,11 +3,13 @@ package com.project.ecommerce.domain.user.entity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,6 +23,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Builder
 @Table
+@EntityListeners(AuditingEntityListener.class)
 public class Users implements UserDetails {
 
     @Id
@@ -39,12 +42,14 @@ public class Users implements UserDetails {
     @Column(nullable = false)
     private String userEmail;
 
-    @Column(nullable = false)
-    private BigDecimal point;
+//    @Column(nullable = false)
+//    private BigDecimal point;
 
-    @Column(nullable = false)
+    @CreatedDate
+    @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
+    @LastModifiedDate
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 

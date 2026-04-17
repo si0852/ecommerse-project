@@ -28,11 +28,25 @@ public class ApiResponse<T> {
                 .build();
     }
 
+    public static ApiResponse<Void> ok(String message) {
+        return ApiResponse.<Void>builder()
+                .status(200)
+                .message(message)
+                .build();
+    }
+
     public static <T> ApiResponse<T> created(T data) {
         return ApiResponse.<T>builder()
                 .status(201)
                 .message("created")
                 .data(data)
+                .build();
+    }
+
+    public static <T> ApiResponse<T> created(String message) {
+        return ApiResponse.<T>builder()
+                .status(201)
+                .message(message)
                 .build();
     }
 
