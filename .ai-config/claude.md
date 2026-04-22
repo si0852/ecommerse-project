@@ -9,43 +9,53 @@
 ## 1. 프로젝트 개요
 
 ### 프로젝트명
-<!-- 프로젝트 이름 -->
-예) ShopEase — 이커머스 플랫폼
+건강식품 이커머스 플랫폼
 
 ### 한 줄 설명
 <!-- 이 프로젝트가 뭔지 한 문장으로 -->
+건강식품에 관심이 있는 사람들을 위한 상품 등록, 결제, 배송
 예) 소규모 셀러를 위한 상품 등록~결제~배송 관리까지 지원하는 이커머스 백엔드 API
 
 ### 프로젝트 목적
 <!-- 왜 만드는가? 사이드 프로젝트의 목표 -->
 - 하네스 엔지니어링 역량 시연용 포트폴리오
 - Spring Boot + AI 자동화 파이프라인 구축 경험
+  - 커밋 하게 되면 AI를 활용하여 자동으로 테스트 코드 생성
+  - 테스트 진행 
+  - PR 작성
+  - Slack을 통해 테스트 결과 여부 전송
 - 실무 수준의 이커머스 도메인 설계 경험
+- 기본기 확립
+  - DB, Java, Spring에 대한 기본기 학습
+- 개발 싸이클 확립
+  - CI/CD 경험
+  - 서버 구축 
 
 ### 개발 기간
 <!-- 마일스톤 -->
-| 단계 | 기간 | 목표 |
-|---|---|---|
-| Phase 1 | 0주차 ~ 2주차 | 회원/인증, 상품 CRUD |
-| Phase 2 | 3주차 ~ 4주차 | 주문/결제, 장바구니 |
-| Phase 3 | 5주차 ~ 6주차 | 배송, 관리자 기능 |
-| Phase 4 | 7주차 ~ 8주차 | AI 테스트 자동화 파이프라인 |
+| 단계      | Month | 기간        | 목표           |
+|---------|-------|-----------|--------------|
+| Phase 1 | 4월    | 3주차 ~ 4주차 | 회원/인증, 상품 CRUD |
+| Phase 2 | 4월    | 5주차       | 주문/결제        |
+| Phase 3 | 5월    | 1주차       | 배송, 관리자 기능   |
+| Phase 4 | 5월    | 2주차       | 관리자 기능       |
+| Phase 5 | 5월    | 3주차 ~ 4주차 | AI 테스트 자동화 파이프라인 |
 
 ---
 
 ## 2. 기술 스택
 
 ### 백엔드
-| 구분 | 기술 | 버전 | 비고 |
-|---|---|---|---|
-| Language | Java | 17 | LTS |
-| Framework | Spring Boot | 3.x | |
-| Security | Spring Security + JWT | | Access/Refresh 토큰 |
-| ORM | JPA / Hibernate | | QueryDSL 병행 |
-| Build | Gradle | 8.x | Kotlin DSL |
-| DB | PostgreSQL | 16 | |
-| Cache | Redis | 7.x | 세션, 장바구니 캐싱 |
-| API Doc | Swagger / SpringDoc | | |
+| 구분 | 기술                    | 버전    | 비고 |
+|---|-----------------------|-------|---|
+| Language | Java                  | 21    | LTS |
+| Framework | Spring Boot           | 3.x   | |
+| Security | Spring Security + JWT |       | Access/Refresh 토큰 |
+| ORM | JPA / Hibernate       |       | QueryDSL 병행 |
+| Build | Gradle                | 9.x   | Kotlin DSL |
+| DB | MYSQL                 | 9.3.0 | |
+| Cache | Redis                 | 7.x   | 세션, 장바구니 캐싱 |
+| API Doc | Swagger / SpringDoc   |       | |
 
 ### 인프라 / DevOps
 | 구분 | 기술 | 비고 |
@@ -54,13 +64,6 @@
 | CI/CD | GitHub Actions | 빌드/테스트 자동화 |
 | AI 파이프라인 | n8n (self-hosted) | 테스트 자동 생성 |
 | AI 모델 | Claude API (Sonnet) | 테스트 코드 생성 |
-
-### 프론트엔드 (해당 시)
-| 구분 | 기술 | 비고 |
-|---|---|---|
-| Framework | React / Next.js | |
-| 상태관리 | | |
-| UI 라이브러리 | | |
 
 ---
 
