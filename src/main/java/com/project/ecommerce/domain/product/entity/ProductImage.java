@@ -16,32 +16,25 @@ import java.time.LocalDateTime;
 @Builder
 @Table
 @EntityListeners(AuditingEntityListener.class)
-public class Products {
+public class ProductImage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(nullable = false)
-    private String productName;
-
-//    @Column(nullable = false)
-//    private String categoryId;
+    private long productId;
 
     @Column(nullable = false)
-    private String description;
+    private String imageUrl;
 
     @Column(nullable = false)
-    private BigDecimal price;
+    private String imageType;
 
-//    @Column(nullable = false)
-//    private long stock;
+    @Column(nullable = false)
+    private int sortOrder;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
-
-//    @LastModifiedDate
-//    @Column(nullable = false)
-//    private LocalDateTime updatedAt;
 }
