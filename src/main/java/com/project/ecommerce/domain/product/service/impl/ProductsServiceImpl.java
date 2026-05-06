@@ -1,8 +1,10 @@
 package com.project.ecommerce.domain.product.service.impl;
 
 import com.project.ecommerce.common.exception.BusinessException;
+import com.project.ecommerce.domain.dto.product.DecreaseInventoryData;
 import com.project.ecommerce.domain.dto.product.response.ProductsResponseDto;
 import com.project.ecommerce.domain.product.entity.Products;
+import com.project.ecommerce.domain.product.repository.InventoryRepository;
 import com.project.ecommerce.domain.product.repository.ProductsRepository;
 import com.project.ecommerce.domain.product.service.ProductsService;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +18,7 @@ import java.util.stream.Collectors;
 public class ProductsServiceImpl implements ProductsService {
 
     private final ProductsRepository productsRepository;
+    private final InventoryRepository inventoryRepository;
 
     @Override
     public ProductsResponseDto getProductsById(Long id) {
@@ -25,7 +28,6 @@ public class ProductsServiceImpl implements ProductsService {
                 .id(products.getId())
                 .productName(products.getProductName())
                 .price(products.getPrice())
-                .stock(products.getStock())
                 .build();
     }
 
@@ -37,4 +39,10 @@ public class ProductsServiceImpl implements ProductsService {
                 .map(ProductsResponseDto::from)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public Integer decreaseStock(DecreaseInventoryData data) {
+        return inventoryRepository.decreaseStock(data.getProductOptionId(), data.getReqQuantity());
+    }
+
 }

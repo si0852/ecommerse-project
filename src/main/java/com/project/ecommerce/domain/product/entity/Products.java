@@ -26,7 +26,7 @@ public class Products {
     private String productName;
 
 //    @Column(nullable = false)
-//    private String categoryId;
+//    private long categoryId;
 
     @Column(nullable = false)
     private String description;

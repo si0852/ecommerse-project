@@ -1,5 +1,6 @@
 package com.project.ecommerce.domain.order.entity;
 
+import com.project.ecommerce.domain.dto.order.OrderItemData;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -27,7 +28,10 @@ public class OrderItem {
     private long orderId;
 
     @Column(nullable = false)
-    private long inventoryId;
+    private long productId;
+
+    @Column(nullable = false)
+    private long productOptionId;
 
     @Column(nullable = false)
     private String productName;
@@ -45,4 +49,15 @@ public class OrderItem {
     @LastModifiedDate
     @Column(nullable = false)
     private LocalDateTime updatedAt;
+
+    public static OrderItem toOrderItem(OrderItemData data) {
+        return OrderItem.builder()
+                .orderId(data.getOrderId())
+                .productId(data.getProductId())
+                .productOptionId(data.getProductOptionId())
+                .productName(data.getProductName())
+                .quantity(data.getQuantity())
+                .totalPrice(data.getTotalPrice())
+                .build();
+    }
 }

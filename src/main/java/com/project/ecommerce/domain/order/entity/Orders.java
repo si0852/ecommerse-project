@@ -1,5 +1,7 @@
 package com.project.ecommerce.domain.order.entity;
 
+import com.project.ecommerce.domain.dto.order.OrderData;
+import com.project.ecommerce.domain.dto.order.status.OrderStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -17,7 +19,7 @@ import java.time.LocalDateTime;
 @Builder
 @Table
 @EntityListeners(AuditingEntityListener.class)
-public class Order {
+public class Orders {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +32,8 @@ public class Order {
     private BigDecimal totalPrice;
 
     @Column(nullable = false)
-    private String orderStatus;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus orderStatus;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
@@ -39,4 +42,12 @@ public class Order {
     @LastModifiedDate
     @Column(nullable = false)
     private LocalDateTime updatedAt;
+
+    public static Orders toOrder(OrderData order) {
+        return Orders.builder()
+                .userId(order.getUserId())
+                .totalPrice(order.getTotalPrice())
+                .orderStatus(OrderStatus.PENDING)
+                .build();
+    }
 }

@@ -1,5 +1,8 @@
 package com.project.ecommerce.domain.payment.entity;
 
+import com.project.ecommerce.domain.dto.payment.status.PaymentGenerateData;
+import com.project.ecommerce.domain.dto.payment.status.PaymentMethod;
+import com.project.ecommerce.domain.dto.payment.status.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -32,11 +35,12 @@ public class Payment {
     @Column(nullable = false)
     private BigDecimal paymentPrice;
 
-    @Column(nullable = false)
-    private String paymentMethod;
+    @Enumerated(EnumType.STRING)
+    private PaymentMethod paymentMethod;
 
     @Column(nullable = false)
-    private String paymentStatus;
+    @Enumerated(EnumType.STRING)
+    private PaymentStatus paymentStatus;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
@@ -45,4 +49,13 @@ public class Payment {
     @LastModifiedDate
     @Column(nullable = false)
     private LocalDateTime updatedAt;
+
+    public static Payment toPayment(PaymentGenerateData data) {
+        return Payment.builder()
+                .orderId(data.getOrderId())
+                .userId(data.getUserId())
+                .paymentPrice(data.getPaymentPrice())
+                .paymentStatus(PaymentStatus.PENDING)
+                .build();
+    }
 }

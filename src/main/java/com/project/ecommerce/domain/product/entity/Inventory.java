@@ -26,7 +26,7 @@ public class Inventory {
     private long productOptionId;
 
     @Column(nullable = false)
-    private int stockQuantity;
+    private int quantity;
 
     @LastModifiedDate
     @Column(nullable = false)
