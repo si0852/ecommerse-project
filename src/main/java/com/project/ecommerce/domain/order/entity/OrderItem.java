@@ -24,8 +24,8 @@ public class OrderItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false)
-    private long orderId;
+//    @Column(nullable = false)
+//    private long orderId;
 
     @Column(nullable = false)
     private long productId;
@@ -50,14 +50,8 @@ public class OrderItem {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
-    public static OrderItem toOrderItem(OrderItemData data) {
-        return OrderItem.builder()
-                .orderId(data.getOrderId())
-                .productId(data.getProductId())
-                .productOptionId(data.getProductOptionId())
-                .productName(data.getProductName())
-                .quantity(data.getQuantity())
-                .totalPrice(data.getTotalPrice())
-                .build();
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id")
+    private Orders orders;
+
 }

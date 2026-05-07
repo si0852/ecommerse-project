@@ -20,8 +20,12 @@ public class ProductOption {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false)
-    private long productId;
+//    @Column(nullable = false)
+//    private long productId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id")
+    private Products products;
 
     @Column(nullable = false)
     private String optionName;

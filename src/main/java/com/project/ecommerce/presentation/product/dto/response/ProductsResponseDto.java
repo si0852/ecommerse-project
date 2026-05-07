@@ -1,4 +1,4 @@
-package com.project.ecommerce.domain.dto.product.response;
+package com.project.ecommerce.presentation.product.dto.response;
 
 import com.project.ecommerce.domain.product.entity.Products;
 import lombok.Builder;

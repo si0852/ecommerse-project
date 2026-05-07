@@ -1,7 +1,8 @@
 package com.project.ecommerce.domain.product.service;
 
 import com.project.ecommerce.domain.dto.product.DecreaseInventoryData;
-import com.project.ecommerce.domain.dto.product.response.ProductsResponseDto;
+import com.project.ecommerce.domain.product.entity.ProductOption;
+import com.project.ecommerce.presentation.product.dto.response.ProductsResponseDto;
 
 import java.util.List;
 
@@ -12,4 +13,6 @@ public interface ProductsService {
     List<ProductsResponseDto> getProductsData();
 
     Integer decreaseStock(DecreaseInventoryData data);
+
+    List<ProductOption> getProductsOptionData(List<Long> id);
 }

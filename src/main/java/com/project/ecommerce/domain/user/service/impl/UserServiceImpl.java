@@ -2,9 +2,9 @@ package com.project.ecommerce.domain.user.service.impl;
 
 import com.project.ecommerce.common.config.security.JwtProvider;
 import com.project.ecommerce.common.exception.BusinessException;
-import com.project.ecommerce.domain.dto.user.request.SignInRequestDto;
-import com.project.ecommerce.domain.dto.user.request.SignUpRequestDto;
-import com.project.ecommerce.domain.dto.user.response.SignInResponseDto;
+import com.project.ecommerce.presentation.user.dto.request.SignInRequestDto;
+import com.project.ecommerce.presentation.user.dto.request.SignUpRequestDto;
+import com.project.ecommerce.presentation.user.dto.response.SignInResponseDto;
 import com.project.ecommerce.domain.user.entity.Users;
 import com.project.ecommerce.domain.user.repository.UserRepository;
 import com.project.ecommerce.domain.user.service.UserService;

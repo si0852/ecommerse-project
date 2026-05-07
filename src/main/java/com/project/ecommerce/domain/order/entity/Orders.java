@@ -1,6 +1,7 @@
 package com.project.ecommerce.domain.order.entity;
 
 import com.project.ecommerce.domain.dto.order.OrderData;
+import com.project.ecommerce.domain.dto.order.OrderItemData;
 import com.project.ecommerce.domain.dto.order.status.OrderStatus;
 import jakarta.persistence.*;
 import lombok.*;
@@ -10,6 +11,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -42,6 +45,14 @@ public class Orders {
     @LastModifiedDate
     @Column(nullable = false)
     private LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderItem> orderItems = new ArrayList<>();
+
+    public void addOrderItem(OrderItem item) {
+        this.orderItems.add(item);
+        item.setOrders(this);
+    }
 
     public static Orders toOrder(OrderData order) {
         return Orders.builder()
