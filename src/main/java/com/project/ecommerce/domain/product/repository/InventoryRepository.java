@@ -14,4 +14,4 @@ public interface InventoryRepository extends JpaRepository<Inventory, Long> {
             "SET i.quantity = i.quantity - :reqQuantity" +
             "WHERE i.productOptionId = :productOptionId and i.quantity >= :reqQuantity")
     int decreaseStock(@Param("productOptionId") Long productOptionId, @Param("reqQuantity")int reqQuantity);
-}
+}분
