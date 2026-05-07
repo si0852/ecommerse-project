@@ -1,8 +1,8 @@
 package com.project.ecommerce.domain.user.service;
 
-import com.project.ecommerce.domain.dto.user.request.SignInRequestDto;
-import com.project.ecommerce.domain.dto.user.request.SignUpRequestDto;
-import com.project.ecommerce.domain.dto.user.response.SignInResponseDto;
+import com.project.ecommerce.presentation.user.dto.request.SignInRequestDto;
+import com.project.ecommerce.presentation.user.dto.request.SignUpRequestDto;
+import com.project.ecommerce.presentation.user.dto.response.SignInResponseDto;
 
 public interface UserService {
 

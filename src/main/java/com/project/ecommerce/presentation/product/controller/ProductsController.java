@@ -1,7 +1,7 @@
-package com.project.ecommerce.domain.product.controller;
+package com.project.ecommerce.presentation.product.controller;
 
 import com.project.ecommerce.common.response.ApiResponse;
-import com.project.ecommerce.domain.dto.product.response.ProductsResponseDto;
+import com.project.ecommerce.presentation.product.dto.response.ProductsResponseDto;
 import com.project.ecommerce.domain.product.service.ProductsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

@@ -2,7 +2,9 @@ package com.project.ecommerce.domain.product.service.impl;
 
 import com.project.ecommerce.common.exception.BusinessException;
 import com.project.ecommerce.domain.dto.product.DecreaseInventoryData;
-import com.project.ecommerce.domain.dto.product.response.ProductsResponseDto;
+import com.project.ecommerce.domain.product.entity.ProductOption;
+import com.project.ecommerce.domain.product.repository.ProductsOptionRepository;
+import com.project.ecommerce.presentation.product.dto.response.ProductsResponseDto;
 import com.project.ecommerce.domain.product.entity.Products;
 import com.project.ecommerce.domain.product.repository.InventoryRepository;
 import com.project.ecommerce.domain.product.repository.ProductsRepository;
@@ -19,6 +21,7 @@ public class ProductsServiceImpl implements ProductsService {
 
     private final ProductsRepository productsRepository;
     private final InventoryRepository inventoryRepository;
+    private final ProductsOptionRepository productsOptionRepository;
 
     @Override
     public ProductsResponseDto getProductsById(Long id) {
@@ -43,6 +46,11 @@ public class ProductsServiceImpl implements ProductsService {
     @Override
     public Integer decreaseStock(DecreaseInventoryData data) {
         return inventoryRepository.decreaseStock(data.getProductOptionId(), data.getReqQuantity());
+    }
+
+    @Override
+    public List<ProductOption> getProductsOptionData(List<Long> id) {
+        return productsOptionRepository.findAllByIdIn(id);
     }
 
 }

@@ -1,9 +1,9 @@
-package com.project.ecommerce.domain.user.controller;
+package com.project.ecommerce.presentation.user.controller;
 
 import com.project.ecommerce.common.response.ApiResponse;
-import com.project.ecommerce.domain.dto.user.request.SignInRequestDto;
-import com.project.ecommerce.domain.dto.user.request.SignUpRequestDto;
-import com.project.ecommerce.domain.dto.user.response.SignInResponseDto;
+import com.project.ecommerce.presentation.user.dto.request.SignInRequestDto;
+import com.project.ecommerce.presentation.user.dto.request.SignUpRequestDto;
+import com.project.ecommerce.presentation.user.dto.response.SignInResponseDto;
 import com.project.ecommerce.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

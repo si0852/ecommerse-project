@@ -9,7 +9,7 @@ public interface OrderService {
 
     Orders generateOrder(OrderData data); // 주문생성
 
-    OrderItem generateOrderItem(OrderItemData data); // 주문상세생성
+//    OrderItem generateOrderItem(OrderItemData data); // 주문상세생성
 
     void modifyOrder(); // 주문 수정
 
