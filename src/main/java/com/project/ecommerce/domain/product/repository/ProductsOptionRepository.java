@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface ProductsOptionRepository extends JpaRepository<ProductOption, Long> {
 
-    @Query("select po from ProductOption po join fetch po.product where po.id in :ids")
+    @Query("select po from ProductOption po join fetch po.products where po.id in :ids")
     List<ProductOption> findAllByIdIn(List<Long> ids);
 }
