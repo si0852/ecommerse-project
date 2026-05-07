@@ -297,7 +297,7 @@ com.project.ecommerce
 │   │   ├── MemberRepository.java
 │   │   └── MemberGrade.java (enum)
 │   ├── product/
-│   ├── order/
+│   ├── orders/
 │   ├── payment/
 │   └── delivery/
 ├── application/               # 서비스 레이어 (유스케이스)
@@ -306,13 +306,13 @@ com.project.ecommerce
 │   │   ├── MemberCommand.java (요청 DTO)
 │   │   └── MemberInfo.java (응답 DTO)
 │   ├── product/
-│   ├── order/
+│   ├── orders/
 │   └── payment/
 ├── presentation/              # 컨트롤러 (REST API)
 │   ├── member/
 │   │   └── MemberController.java
 │   ├── product/
-│   ├── order/
+│   ├── orders/
 │   └── payment/
 ├── infrastructure/            # 외부 연동
 │   ├── pg/                    # PG사 결제 연동

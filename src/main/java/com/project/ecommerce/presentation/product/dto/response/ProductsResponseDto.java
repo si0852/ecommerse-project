@@ -20,7 +20,7 @@ public class ProductsResponseDto {
                 .id(product.getId())
                 .productName(product.getProductName())
                 .price(product.getPrice())
-                .stock(product.getStock())
+//                .stock(product.getStock())
                 .build();
     }
 }

@@ -17,6 +17,10 @@ public class BusinessException extends RuntimeException{
         return new BusinessException( message, HttpStatus.CONFLICT);
     }
 
+    public static BusinessException notExists(String message) {
+        return new BusinessException( message, HttpStatus.BAD_REQUEST);
+    }
+
     public static BusinessException notFound(String message) {
         return new BusinessException( message, HttpStatus.NOT_FOUND);
     }
@@ -31,5 +35,9 @@ public class BusinessException extends RuntimeException{
 
     public static BusinessException forbidden(String message) {
         return new BusinessException(message, HttpStatus.FORBIDDEN);
+    }
+
+    public static BusinessException OutOfStockException(String message) {
+        return new BusinessException(message, HttpStatus.CONFLICT);
     }
 }
