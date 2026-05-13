@@ -2,7 +2,6 @@ package com.project.ecommerce.domain.product.service.impl;
 
 import com.project.ecommerce.common.exception.BusinessException;
 import com.project.ecommerce.domain.dto.order.ProductOptionDto;
-import com.project.ecommerce.domain.dto.product.DecreaseInventoryData;
 import com.project.ecommerce.domain.product.entity.ProductOption;
 import com.project.ecommerce.domain.product.repository.ProductsOptionRepository;
 import com.project.ecommerce.presentation.product.dto.response.ProductsDetailsResponseDto;
@@ -59,5 +58,11 @@ public class ProductsServiceImpl implements ProductsService {
     public List<ProductOption> getProductsOptionData(List<Long> id) {
         return productsOptionRepository.findAllByIdIn(id);
     }
+
+    @Override
+    public ProductOption getProductOptionData(Long optionId) {
+        return productsOptionRepository.findByOptionId(optionId).orElse(null);
+    }
+
 
 }
