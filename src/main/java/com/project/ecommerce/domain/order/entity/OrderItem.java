@@ -1,5 +1,6 @@
 package com.project.ecommerce.domain.order.entity;
 
+import com.project.ecommerce.domain.dto.order.OrderItemData;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -23,11 +24,14 @@ public class OrderItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false)
-    private long orderId;
+//    @Column(nullable = false)
+//    private long orderId;
 
     @Column(nullable = false)
-    private long inventoryId;
+    private long productId;
+
+    @Column(nullable = false)
+    private long productOptionId;
 
     @Column(nullable = false)
     private String productName;
@@ -45,4 +49,9 @@ public class OrderItem {
     @LastModifiedDate
     @Column(nullable = false)
     private LocalDateTime updatedAt;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id")
+    private Orders orders;
+
 }

@@ -1,10 +1,13 @@
 package com.project.ecommerce.domain.product.entity;
 
+import com.project.ecommerce.presentation.product.dto.response.ProductsDetailsResponseDto;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -20,12 +23,19 @@ public class ProductOption {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false)
-    private long productId;
+//    @Column(nullable = false)
+//    private long productId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id")
+    private Products products;
 
     @Column(nullable = false)
     private String optionName;
 
     @Column(nullable = false)
     private BigDecimal additionalPrice;
+
+    @OneToOne(mappedBy = "productOption", cascade = CascadeType.ALL)
+    private Inventory inventory;
 }

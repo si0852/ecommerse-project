@@ -7,6 +7,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -26,7 +28,7 @@ public class Products {
     private String productName;
 
 //    @Column(nullable = false)
-//    private String categoryId;
+//    private long categoryId;
 
     @Column(nullable = false)
     private String description;
@@ -40,6 +42,9 @@ public class Products {
     @CreatedDate
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
+
+    @OneToMany(mappedBy = "products", cascade = CascadeType.ALL)
+    private List<ProductOption> productOptions = new ArrayList<>();
 
 //    @LastModifiedDate
 //    @Column(nullable = false)

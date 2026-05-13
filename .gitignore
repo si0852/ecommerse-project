@@ -1,6 +1,8 @@
 # Build
-build/
-out/
+/build/
+/out/
+/target/
+/bin/
 
 # Gradle
 .gradle/

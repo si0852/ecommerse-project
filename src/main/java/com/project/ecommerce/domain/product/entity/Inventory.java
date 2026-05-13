@@ -22,11 +22,15 @@ public class Inventory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false)
-    private long productOptionId;
+//    @Column(nullable = false)
+//    private long productOptionId;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_option_id", unique = true)
+    ProductOption productOption;
 
     @Column(nullable = false)
-    private int stockQuantity;
+    private int quantity;
 
     @LastModifiedDate
     @Column(nullable = false)
