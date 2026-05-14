@@ -1,13 +1,10 @@
 package com.project.ecommerce.domain.product.entity;
 
-import com.project.ecommerce.presentation.product.dto.response.ProductsDetailsResponseDto;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter

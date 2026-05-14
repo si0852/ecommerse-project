@@ -17,4 +17,6 @@ public interface ProductsService {
     void decreaseStock(List<ProductOptionDto> data);
 
     List<ProductOption> getProductsOptionData(List<Long> id);
+
+    ProductOption getProductOptionData(Long optionId);
 }
