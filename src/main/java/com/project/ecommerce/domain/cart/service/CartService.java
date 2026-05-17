@@ -1,8 +1,10 @@
 package com.project.ecommerce.domain.cart.service;
 
+import com.project.ecommerce.domain.dto.cart.CartResponseDto;
 import com.project.ecommerce.domain.cart.entity.Carts;
 import com.project.ecommerce.domain.dto.cart.status.CartStatus;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface CartService {
@@ -10,4 +12,6 @@ public interface CartService {
     Optional<Carts> findByUserIdAndProductOptionIdAndCartStatus(String userId, Long productOptionId, CartStatus cartStatus);
 
     void save(Carts cart);
+
+    List<CartResponseDto> getCartDetails(String userId);
 }

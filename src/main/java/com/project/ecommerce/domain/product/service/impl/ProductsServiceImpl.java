@@ -61,7 +61,7 @@ public class ProductsServiceImpl implements ProductsService {
 
     @Override
     public ProductOption getProductOptionData(Long optionId) {
-        return productsOptionRepository.findByOptionId(optionId).orElse(null);
+        return productsOptionRepository.findByOptionId(optionId).orElseThrow(() -> BusinessException.notFound("상품 옵션 정보가 존재하지 않습니다.") );
     }
 
 

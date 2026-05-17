@@ -2,6 +2,7 @@ package com.project.ecommerce.domain.cart.entity;
 
 import com.project.ecommerce.common.exception.BusinessException;
 import com.project.ecommerce.domain.dto.cart.status.CartStatus;
+import com.project.ecommerce.domain.product.entity.ProductOption;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import lombok.*;
@@ -36,8 +37,12 @@ public class Carts {
     @Column(nullable = false)
     private String userId;
 
-    @Column(nullable = false)
-    private Long productOptionId;
+//    @Column(nullable = false)
+//    private Long productOptionId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_option_id")
+    private ProductOption productOption;
 
     @Min(1)
     @Column(nullable = false, columnDefinition = "INT UNSIGNED CHECK (quantity>0)")
@@ -55,14 +60,13 @@ public class Carts {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
-    public static Carts toCarts(String userId, Long productOptionId, int quantity) {
+    public static Carts toCarts(String userId,  int quantity) {
         if (quantity <= 0) {
             throw BusinessException.badRequest("수량은 1개 이상이어야 합니다.");
         }
 
         return Carts.builder()
                 .userId(userId)
-                .productOptionId(productOptionId)
                 .quantity(quantity)
                 .cartStatus(CartStatus.ACTIVE)
                 .build();
