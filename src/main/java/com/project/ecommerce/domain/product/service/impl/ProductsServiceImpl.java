@@ -4,6 +4,7 @@ import com.project.ecommerce.common.exception.BusinessException;
 import com.project.ecommerce.domain.dto.order.ProductOptionDto;
 import com.project.ecommerce.domain.product.entity.ProductOption;
 import com.project.ecommerce.domain.product.repository.ProductsOptionRepository;
+import com.project.ecommerce.presentation.order.dto.request.CartOrderRequestDto;
 import com.project.ecommerce.presentation.product.dto.response.ProductsDetailsResponseDto;
 import com.project.ecommerce.presentation.product.dto.response.ProductsResponseDto;
 import com.project.ecommerce.domain.product.entity.Products;
@@ -14,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,6 +54,24 @@ public class ProductsServiceImpl implements ProductsService {
         }
 
     }
+
+    @Transactional
+    @Override
+    public void multiDecreaseStock(List<CartOrderRequestDto> data) {
+
+        List<CartOrderRequestDto> cartOrderList = data.stream()
+                .sorted(Comparator.comparing(CartOrderRequestDto::getProductOptionId))
+                .toList();
+
+        for (CartOrderRequestDto cartOrder : cartOrderList) {
+            int result = inventoryRepository.decreaseStock(cartOrder.getProductOptionId(), cartOrder.getQuantity());
+            if (result == 0) {
+                throw BusinessException.OutOfStockException("재고가 부족하거나 상품 정보가 올바르지 않습니다. (ID: " + cartOrder.getProductOptionId() + ")");
+            }
+        }
+
+    }
+
 
     @Transactional(readOnly = true)
     @Override

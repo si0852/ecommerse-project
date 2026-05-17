@@ -1,5 +1,6 @@
 package com.project.ecommerce.domain.order.entity;
 
+import com.project.ecommerce.application.dto.CartEntityDto;
 import com.project.ecommerce.domain.dto.order.OrderData;
 import com.project.ecommerce.domain.dto.order.OrderItemData;
 import com.project.ecommerce.domain.dto.order.status.OrderStatus;
@@ -13,6 +14,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Getter
@@ -55,10 +57,25 @@ public class Orders {
         item.setOrders(this);
     }
 
+    public void addTotalPrice(OrderItem item) {
+        this.orderItems.add(item);
+        item.setOrders(this);
+
+        BigDecimal totalPrice = item.getTotalPrice();
+        this.totalPrice = Objects.isNull(this.totalPrice) ? totalPrice : this.totalPrice.add(totalPrice);
+    }
+
     public static Orders toOrder(OrderData order) {
         return Orders.builder()
                 .userId(order.getUserId())
                 .totalPrice(order.getTotalPrice())
+                .orderStatus(OrderStatus.PENDING)
+                .build();
+    }
+
+    public static Orders toOrder(CartEntityDto cartOrder) {
+        return Orders.builder()
+                .userId(cartOrder.getUserId())
                 .orderStatus(OrderStatus.PENDING)
                 .build();
     }
