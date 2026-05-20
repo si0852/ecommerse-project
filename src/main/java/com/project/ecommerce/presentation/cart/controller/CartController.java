@@ -1,12 +1,10 @@
 package com.project.ecommerce.presentation.cart.controller;
 
 import com.project.ecommerce.application.CartFacade;
-import com.project.ecommerce.application.OrderFacade;
 import com.project.ecommerce.common.response.ApiResponse;
 import com.project.ecommerce.domain.dto.cart.CartDto;
 import com.project.ecommerce.domain.dto.cart.CartResponseDto;
 import com.project.ecommerce.presentation.cart.dto.request.CartRequestDto;
-import com.project.ecommerce.presentation.order.dto.request.OrderRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

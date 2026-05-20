@@ -11,6 +11,7 @@ import java.util.List;
 public class OrderData {
 
     private String userId;
+    private String orderId;
     private BigDecimal totalPrice;
     List<OrderItemData> orderItem;
 }

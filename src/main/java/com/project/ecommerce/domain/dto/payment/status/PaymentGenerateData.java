@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 @Builder
 public class PaymentGenerateData {
 
-    private long orderId;
+    private String orderId;
     private String userId;
     private BigDecimal paymentPrice;
 }

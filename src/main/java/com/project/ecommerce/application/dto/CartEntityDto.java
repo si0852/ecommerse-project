@@ -12,8 +12,9 @@ public class CartEntityDto {
 
     List<CartOrderRequestDto> dto;
     String userId;
+    String orderId;
 
     public static CartEntityDto toCartEntity(List<CartOrderRequestDto> dto, String userId) {
-        return new CartEntityDto(dto, userId);
+        return new CartEntityDto(dto, userId, "");
     }
 }
