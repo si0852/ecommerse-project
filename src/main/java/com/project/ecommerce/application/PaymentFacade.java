@@ -31,6 +31,7 @@ public class PaymentFacade {
 
         paymentService.processPaymentSuccess(PaymentInfoDto.toDto(request));
 
+        orders.updatePayCompleteStatus();
         Payment paymentInfo = paymentService.getPaymentInfo(request.getOrderId());
         paymentInfo.updateStatus(request.getPaymentMethod());
 

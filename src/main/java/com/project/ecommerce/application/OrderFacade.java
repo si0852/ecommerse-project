@@ -59,7 +59,7 @@ public class OrderFacade {
             BigDecimal eachPrice = option.getAdditionalPrice().add(option.getProducts().getPrice()).multiply(BigDecimal.valueOf(stock));
             totalPrice = totalPrice.add(eachPrice);
 
-            orderItemsData.add(OrderItemData.builder().productId(option.getProducts().getId()).productName(option.getProducts().getProductName()).quantity(stock).totalPrice(eachPrice).build());
+            orderItemsData.add(OrderItemData.builder().productId(option.getProducts().getId()).productName(option.getProducts().getProductName()).quantity(stock).productOptionId(option.getId()).totalPrice(eachPrice).build());
         }
 
         OrderData orderData = OrderData.builder().orderId(GeneratorUtil.generateOrderNo()).userId(dto.getUserId()).totalPrice(totalPrice).orderItem(orderItemsData).build();

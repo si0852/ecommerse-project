@@ -33,6 +33,7 @@ public class OrderServiceImpl implements OrderService {
         List<OrderItemData> orderItem = data.getOrderItem();
 
         for (OrderItemData itemData : orderItem) {
+            log.info("itemData: " + itemData.getProductOptionId());
             OrderItem item = OrderItem.builder().productId(itemData.getProductId()).productOptionId(itemData.getProductOptionId())
                     .productName(itemData.getProductName())
                     .quantity(itemData.getQuantity())

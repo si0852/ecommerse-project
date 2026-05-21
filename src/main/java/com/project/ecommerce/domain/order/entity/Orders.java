@@ -80,4 +80,8 @@ public class Orders {
                 .orderStatus(OrderStatus.PENDING)
                 .build();
     }
+
+    public void updatePayCompleteStatus() {
+        this.orderStatus = OrderStatus.PAYMENT_COMPLETE;
+    }
 }
