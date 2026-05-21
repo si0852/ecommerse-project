@@ -2,6 +2,7 @@ package com.project.ecommerce.domain.product.service.impl;
 
 import com.project.ecommerce.common.exception.BusinessException;
 import com.project.ecommerce.domain.dto.order.ProductOptionDto;
+import com.project.ecommerce.domain.product.entity.Inventory;
 import com.project.ecommerce.domain.product.entity.ProductOption;
 import com.project.ecommerce.domain.product.repository.ProductsOptionRepository;
 import com.project.ecommerce.presentation.order.dto.request.CartOrderRequestDto;
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,10 +39,22 @@ public class ProductsServiceImpl implements ProductsService {
     @Override
     public List<ProductsResponseDto> getProductsData() {
         List<Products> products = productsRepository.findAll();
+        List<ProductsResponseDto> result = new ArrayList<>();
 
-        return products.stream()
-                .map(ProductsResponseDto::from)
-                .collect(Collectors.toList());
+        for (Products pro : products) {
+            for (ProductOption option : pro.getProductOptions()) {
+                Inventory inventory = option.getInventory();
+
+                if (inventory == null) {
+                    throw BusinessException.notFound("상품이 품절되었습니다.");
+                }
+
+                ProductsResponseDto prData = ProductsResponseDto.builder().id(pro.getId()).productName(pro.getProductName()).price(pro.getPrice()).stock(inventory.getQuantity()).build();
+                result.add(prData);
+            }
+        }
+
+        return result;
     }
 
     @Transactional
