@@ -58,4 +58,9 @@ public class Payment {
                 .paymentStatus(PaymentStatus.PENDING)
                 .build();
     }
+
+    public void updateStatus(PaymentMethod paymentMethod) {
+        this.paymentStatus = PaymentStatus.PAYMENT_COMPLETE;
+        this.paymentMethod = paymentMethod;
+    }
 }

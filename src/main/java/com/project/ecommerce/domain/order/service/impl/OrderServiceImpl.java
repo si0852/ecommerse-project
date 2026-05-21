@@ -1,7 +1,9 @@
 package com.project.ecommerce.domain.order.service.impl;
 
+import com.project.ecommerce.common.exception.BusinessException;
 import com.project.ecommerce.domain.dto.order.OrderData;
 import com.project.ecommerce.domain.dto.order.OrderItemData;
+import com.project.ecommerce.domain.dto.order.status.OrderStatus;
 import com.project.ecommerce.domain.order.entity.OrderItem;
 import com.project.ecommerce.domain.order.entity.Orders;
 import com.project.ecommerce.domain.order.repository.OrderItemRepository;
@@ -58,9 +60,10 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
+    @Transactional
     @Override
-    public void selectOrder() {
-
+    public Orders selectOrderAndStatus(String orderId, OrderStatus orderStatus) {
+        return orderRepository.findByIdAndOrderStatus(orderId, orderStatus).orElseThrow(() -> BusinessException.notFound("주문정보가 존재하지 않습니다."));
     }
 
     @Override
