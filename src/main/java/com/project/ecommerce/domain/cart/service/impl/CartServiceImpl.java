@@ -1,5 +1,6 @@
 package com.project.ecommerce.domain.cart.service.impl;
 
+import com.project.ecommerce.common.exception.BusinessException;
 import com.project.ecommerce.domain.dto.cart.CartResponseDto;
 import com.project.ecommerce.domain.cart.entity.Carts;
 import com.project.ecommerce.domain.cart.repository.CartsRepository;
@@ -35,5 +36,11 @@ public class CartServiceImpl implements CartService {
     @Override
     public List<CartResponseDto> getCartDetails(String userId) {
         return cartsRepository.getCartDetails(userId);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Carts findByCartId(Long cartId) {
+        return cartsRepository.findById(cartId).orElseThrow(() -> BusinessException.notFound("항목이 존재하지 않습니다."));
     }
 }

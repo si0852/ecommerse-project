@@ -3,6 +3,8 @@ package com.project.ecommerce.application;
 import com.project.ecommerce.application.dto.CartEntityDto;
 import com.project.ecommerce.common.exception.BusinessException;
 import com.project.ecommerce.common.util.GeneratorUtil;
+import com.project.ecommerce.domain.cart.entity.Carts;
+import com.project.ecommerce.domain.cart.service.CartService;
 import com.project.ecommerce.domain.dto.order.OrderData;
 import com.project.ecommerce.domain.dto.order.OrderItemData;
 import com.project.ecommerce.domain.dto.payment.status.PaymentGenerateData;
@@ -35,6 +37,7 @@ public class OrderFacade {
     private final OrderService orderService;
     private final ProductsService productsService;
     private final PaymentService paymentService;
+    private final CartService cartService;
 
     @Transactional
     public OrderResponseDto generateOrderService(OrderGenerateDto dto) {
@@ -100,6 +103,10 @@ public class OrderFacade {
                     .build();
 
             order.addTotalPrice(orderItem);
+
+            Carts cartData = cartService.findByCartId(orderData.getCartId());
+            cartData.updateStatus();
+
         }
 
         Orders orders = orderService.generateOrder(order);

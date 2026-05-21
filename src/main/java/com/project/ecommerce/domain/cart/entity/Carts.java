@@ -78,4 +78,8 @@ public class Carts {
         }
         this.quantity = newQuantity;
     }
+
+    public void updateStatus() {
+        this.cartStatus = CartStatus.ORDERED;
+    }
 }
