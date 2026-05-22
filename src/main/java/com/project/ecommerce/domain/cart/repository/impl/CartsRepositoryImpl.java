@@ -3,6 +3,7 @@ package com.project.ecommerce.domain.cart.repository.impl;
 import com.project.ecommerce.domain.dto.cart.CartResponseDto;
 import com.project.ecommerce.domain.cart.entity.QCarts;
 import com.project.ecommerce.domain.cart.repository.CartRepositoryCustom;
+import com.project.ecommerce.domain.dto.cart.status.CartStatus;
 import com.project.ecommerce.domain.product.entity.QProductOption;
 import com.project.ecommerce.domain.product.entity.QProducts;
 import com.querydsl.core.types.Projections;
@@ -33,7 +34,10 @@ public class CartsRepositoryImpl implements CartRepositoryCustom {
                 .from(cart)
                 .join(cart.productOption, po)
                 .join(po.products, p)
-                .where(cart.userId.eq(userId))
+                .where(
+                        cart.userId.eq(userId),
+                        cart.cartStatus.eq(CartStatus.ACTIVE)
+                )
                 .fetch();
 
     }

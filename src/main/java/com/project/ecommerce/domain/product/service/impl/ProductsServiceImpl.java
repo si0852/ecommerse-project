@@ -39,22 +39,18 @@ public class ProductsServiceImpl implements ProductsService {
     @Override
     public List<ProductsResponseDto> getProductsData() {
         List<Products> products = productsRepository.findAll();
-        List<ProductsResponseDto> result = new ArrayList<>();
 
-        for (Products pro : products) {
-            for (ProductOption option : pro.getProductOptions()) {
-                Inventory inventory = option.getInventory();
+        return products.stream()
+                .map(pro -> {
+                    int totalStock = pro.getTotalStock();
 
-                if (inventory == null) {
-                    throw BusinessException.notFound("상품이 품절되었습니다.");
-                }
-
-                ProductsResponseDto prData = ProductsResponseDto.builder().id(pro.getId()).productName(pro.getProductName()).price(pro.getPrice()).stock(inventory.getQuantity()).build();
-                result.add(prData);
-            }
-        }
-
-        return result;
+                    return ProductsResponseDto.builder()
+                            .id(pro.getId())
+                            .productName(pro.getProductName())
+                            .price(pro.getPrice())
+                            .stock(totalStock)
+                            .build();
+                }).toList();
     }
 
     @Transactional

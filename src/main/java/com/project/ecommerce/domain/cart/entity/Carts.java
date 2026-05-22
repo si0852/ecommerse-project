@@ -82,4 +82,8 @@ public class Carts {
     public void updateStatus() {
         this.cartStatus = CartStatus.ORDERED;
     }
+
+    public void deleteUpdateStatus() {
+        this.cartStatus = CartStatus.REMOVED;
+    }
 }

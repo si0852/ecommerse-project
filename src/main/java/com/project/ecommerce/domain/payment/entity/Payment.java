@@ -35,6 +35,12 @@ public class Payment {
     @Column(nullable = false)
     private BigDecimal paymentPrice;
 
+    @Column(nullable = true)
+    private String approvedAt;
+
+    @Column(nullable = true)
+    private String paymentKey;
+
     @Enumerated(EnumType.STRING)
     private PaymentMethod paymentMethod;
 
@@ -59,8 +65,10 @@ public class Payment {
                 .build();
     }
 
-    public void updateStatus(PaymentMethod paymentMethod) {
+    public void updateStatus(PaymentMethod paymentMethod, String paymentKey, String approvedAt) {
         this.paymentStatus = PaymentStatus.PAYMENT_COMPLETE;
         this.paymentMethod = paymentMethod;
+        this.paymentKey = paymentKey;
+        this.approvedAt = approvedAt;
     }
 }

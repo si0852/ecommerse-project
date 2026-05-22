@@ -8,6 +8,7 @@ import com.project.ecommerce.presentation.order.dto.request.OrderGenerateDto;
 import com.project.ecommerce.presentation.order.dto.request.OrderRequestDto;
 import com.project.ecommerce.presentation.order.dto.response.OrderResponseDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,6 +22,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/orders")
 @RequiredArgsConstructor
+@Slf4j
 public class OrderController {
 
     private final OrderFacade orderFacade;
@@ -33,6 +35,7 @@ public class OrderController {
 
     @PostMapping("/cart")
     public ResponseEntity<ApiResponse<OrderResponseDto>> generateCartOrderData(@AuthenticationPrincipal UserDetails userDetails, @RequestBody List<CartOrderRequestDto> dto) {
+        log.info("dto : " + dto.toString());
         OrderResponseDto orderResponseDto = orderFacade.generateCartOrderService(CartEntityDto.toCartEntity(dto, userDetails.getUsername()));
         return ResponseEntity.status(200).body(ApiResponse.created(orderResponseDto));
     }

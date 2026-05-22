@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/carts/api/v1")
+@RequestMapping("/api/v1/carts")
 @RequiredArgsConstructor
 public class CartController {
 
@@ -34,4 +34,11 @@ public class CartController {
         String userId = userDetails.getUsername();
         return ResponseEntity.status(200).body(ApiResponse.ok(cartFacade.getCartDetailsInfo(userId)));
     }
+
+    @PatchMapping("/{cartId}")
+    public ResponseEntity<ApiResponse<Void>> deleteCartItem(@PathVariable Long cartId) {
+        cartFacade.cartRemoveStatus(cartId);
+        return ResponseEntity.status(200).body(ApiResponse.ok("삭제가 완료되었습니다."));
+    }
+
 }

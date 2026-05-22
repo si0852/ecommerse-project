@@ -12,6 +12,7 @@ import com.project.ecommerce.domain.order.service.OrderService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,21 +29,28 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Orders generateOrder(OrderData data) {
         // 주문 생성
-        Orders orders = Orders.toOrder(data);
+        try {
+            Orders orders = Orders.toOrder(data);
 
-        List<OrderItemData> orderItem = data.getOrderItem();
+            List<OrderItemData> orderItem = data.getOrderItem();
 
-        for (OrderItemData itemData : orderItem) {
-            log.info("itemData: " + itemData.getProductOptionId());
-            OrderItem item = OrderItem.builder().productId(itemData.getProductId()).productOptionId(itemData.getProductOptionId())
-                    .productName(itemData.getProductName())
-                    .quantity(itemData.getQuantity())
-                    .totalPrice(itemData.getTotalPrice())
-                    .build();
-            orders.addOrderItem(item);
+            for (OrderItemData itemData : orderItem) {
+                OrderItem item = OrderItem.builder().productId(itemData.getProductId()).productOptionId(itemData.getProductOptionId())
+                        .productName(itemData.getProductName())
+                        .quantity(itemData.getQuantity())
+                        .totalPrice(itemData.getTotalPrice())
+                        .build();
+                orders.addOrderItem(item);
+            }
+            Orders save = orderRepository.save(orders);
+            orderRepository.flush();
+
+            orderRepository.findByIdAndOrderStatus(save.getId(), OrderStatus.PENDING).orElseThrow(() -> new RuntimeException("DB에 데이터가 없습니다!"));
+
+            return save;
+        } catch (Exception e) {
+            throw BusinessException.InternalServerError(e.getMessage());
         }
-
-        return orderRepository.save(orders);
     }
 
     @Transactional

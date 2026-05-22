@@ -53,9 +53,16 @@ public class CartFacade {
         );
     }
 
+    @Transactional
     public List<CartResponseDto> getCartDetailsInfo(String userId) {
         userDetailsService.loadUserByUsername(userId);
         List<CartResponseDto> cartDetails = cartService.getCartDetails(userId);
         return CollectionUtils.isEmpty(cartDetails) ? List.of() : cartDetails;
+    }
+
+    @Transactional
+    public void cartRemoveStatus(long cartId) {
+        Carts cart = cartService.findByCartId(cartId);
+        cart.deleteUpdateStatus();
     }
 }

@@ -72,6 +72,7 @@ public class OrderFacade {
 
         paymentService.generatePayment(paymentData);
 
+        log.info("orderId : " + orders.getId());
         return OrderResponseDto.builder().orderId(orders.getId()).totalPrice(orders.getTotalPrice().intValue()).build();
 
     }
@@ -79,6 +80,7 @@ public class OrderFacade {
     @Transactional
     public OrderResponseDto generateCartOrderService(CartEntityDto dto) {
         List<CartOrderRequestDto> requestDto = dto.getDto();
+        log.info("CartEntity_Dto : " + CartEntityDto.builder().toString());
 
         productsService.multiDecreaseStock(requestDto);
 
@@ -86,6 +88,7 @@ public class OrderFacade {
         Orders order = Orders.toOrder(dto);
 
         for (CartOrderRequestDto orderData : requestDto) {
+            log.info("orderData_Dto : " + orderData.toString());
             ProductOption productOptionData = productsService.getProductOptionData(orderData.getProductOptionId());
             Products products = productOptionData.getProducts();
             if (Objects.isNull(productOptionData)) {

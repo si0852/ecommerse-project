@@ -1,6 +1,7 @@
 package com.project.ecommerce.domain.payment.service.impl;
 
 import com.project.ecommerce.application.dto.PaymentInfoDto;
+import com.project.ecommerce.application.dto.TossApprovalResponse;
 import com.project.ecommerce.common.exception.BusinessException;
 import com.project.ecommerce.domain.dto.payment.status.PaymentGenerateData;
 import com.project.ecommerce.domain.dto.payment.status.PaymentStatus;
@@ -34,7 +35,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Transactional
     @Override
-    public void processPaymentSuccess(PaymentInfoDto dto) {
-        client.confirmPayment(dto);
+    public TossApprovalResponse processPaymentSuccess(PaymentInfoDto dto) {
+        return client.confirmPayment(dto);
     }
 }
