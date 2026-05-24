@@ -13,5 +13,6 @@ public interface CartsRepository extends JpaRepository<Carts, Long>, CartReposit
             CartStatus cartStatus
     );
 
+    Optional<Carts> findById(Long id);
 
 }

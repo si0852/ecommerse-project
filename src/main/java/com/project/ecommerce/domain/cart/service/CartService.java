@@ -14,4 +14,6 @@ public interface CartService {
     void save(Carts cart);
 
     List<CartResponseDto> getCartDetails(String userId);
+
+    Carts findByCartId(Long cartId);
 }

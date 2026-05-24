@@ -3,6 +3,7 @@ package com.project.ecommerce.domain.cart.repository.impl;
 import com.project.ecommerce.domain.dto.cart.CartResponseDto;
 import com.project.ecommerce.domain.cart.entity.QCarts;
 import com.project.ecommerce.domain.cart.repository.CartRepositoryCustom;
+import com.project.ecommerce.domain.dto.cart.status.CartStatus;
 import com.project.ecommerce.domain.product.entity.QProductOption;
 import com.project.ecommerce.domain.product.entity.QProducts;
 import com.querydsl.core.types.Projections;
@@ -27,13 +28,16 @@ public class CartsRepositoryImpl implements CartRepositoryCustom {
 
         return queryFactory
                 .select(Projections.constructor(CartResponseDto.class,
-                        p.id, cart.id,p.productName, p.description,
+                        p.id, cart.id,p.productName, p.description, po.id,
                         po.optionName, cart.quantity,  p.price,  po.additionalPrice
                 ))
                 .from(cart)
                 .join(cart.productOption, po)
                 .join(po.products, p)
-                .where(cart.userId.eq(userId))
+                .where(
+                        cart.userId.eq(userId),
+                        cart.cartStatus.eq(CartStatus.ACTIVE)
+                )
                 .fetch();
 
     }

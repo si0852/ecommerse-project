@@ -4,8 +4,11 @@ import com.project.ecommerce.application.OrderFacade;
 import com.project.ecommerce.application.dto.CartEntityDto;
 import com.project.ecommerce.common.response.ApiResponse;
 import com.project.ecommerce.presentation.order.dto.request.CartOrderRequestDto;
+import com.project.ecommerce.presentation.order.dto.request.OrderGenerateDto;
 import com.project.ecommerce.presentation.order.dto.request.OrderRequestDto;
+import com.project.ecommerce.presentation.order.dto.response.OrderResponseDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,19 +22,21 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/orders")
 @RequiredArgsConstructor
+@Slf4j
 public class OrderController {
 
     private final OrderFacade orderFacade;
 
     @PostMapping
-    public ResponseEntity<ApiResponse<Void>> generateOrderData(@RequestBody OrderRequestDto dto) {
-        orderFacade.generateOrderService(dto);
-        return ResponseEntity.status(200).body(ApiResponse.ok("주문이 완료되었습니다."));
+    public ResponseEntity<ApiResponse<OrderResponseDto>> generateOrderData(@AuthenticationPrincipal UserDetails userDetails,@RequestBody OrderRequestDto dto) {
+        OrderResponseDto orderResponseDto = orderFacade.generateOrderService(OrderGenerateDto.toOrderGenerateDto(dto, userDetails.getUsername()));
+        return ResponseEntity.status(200).body(ApiResponse.created(orderResponseDto));
     }
 
     @PostMapping("/cart")
-    public ResponseEntity<ApiResponse<Void>> generateCartOrderData(@AuthenticationPrincipal UserDetails userDetails, @RequestBody List<CartOrderRequestDto> dto) {
-        orderFacade.generateCartOrderService(CartEntityDto.toCartEntity(dto, userDetails.getUsername()));
-        return ResponseEntity.status(200).body(ApiResponse.ok("주문이 완료되었습니다."));
+    public ResponseEntity<ApiResponse<OrderResponseDto>> generateCartOrderData(@AuthenticationPrincipal UserDetails userDetails, @RequestBody List<CartOrderRequestDto> dto) {
+        log.info("dto : " + dto.toString());
+        OrderResponseDto orderResponseDto = orderFacade.generateCartOrderService(CartEntityDto.toCartEntity(dto, userDetails.getUsername()));
+        return ResponseEntity.status(200).body(ApiResponse.created(orderResponseDto));
     }
 }

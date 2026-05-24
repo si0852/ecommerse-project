@@ -20,13 +20,13 @@ import java.time.LocalDateTime;
 @Builder
 @EntityListeners(AuditingEntityListener.class)
 @Table(
-        name = "carts",
-        uniqueConstraints = {
-                @UniqueConstraint(
-                        name = "unique_user_product_option",
-                        columnNames = {"userId", "productOptionId", "cartStatus"}
-                )
-        }
+        name = "carts"
+//        uniqueConstraints = {
+//                @UniqueConstraint(
+//                        name = "unique_user_product_option",
+//                        columnNames = {"userId", "productOptionId", "cartStatus"}
+//                )
+//        }
 )
 public class Carts {
 
@@ -77,5 +77,13 @@ public class Carts {
             throw  BusinessException.badRequest("수량은 1개 이상이어야 합니다.");
         }
         this.quantity = newQuantity;
+    }
+
+    public void updateStatus() {
+        this.cartStatus = CartStatus.ORDERED;
+    }
+
+    public void deleteUpdateStatus() {
+        this.cartStatus = CartStatus.REMOVED;
     }
 }

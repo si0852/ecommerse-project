@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Getter
@@ -49,4 +50,16 @@ public class Products {
 //    @LastModifiedDate
 //    @Column(nullable = false)
 //    private LocalDateTime updatedAt;
+
+    public int getTotalStock() {
+        if (this.productOptions == null) {
+            return 0;
+        }
+
+        return this.productOptions.stream()
+                .map(ProductOption::getInventory)
+                .filter(Objects::nonNull)
+                .mapToInt(Inventory::getQuantity)
+                .sum();
+    }
 }

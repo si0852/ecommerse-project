@@ -40,4 +40,12 @@ public class BusinessException extends RuntimeException{
     public static BusinessException OutOfStockException(String message) {
         return new BusinessException(message, HttpStatus.CONFLICT);
     }
+
+    public static BusinessException HttpRequestConfirmError(String message) {
+        return new BusinessException(message, HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    public static BusinessException InternalServerError(String message) {
+        return new BusinessException(message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

@@ -2,6 +2,9 @@ package com.project.ecommerce.application;
 
 import com.project.ecommerce.application.dto.CartEntityDto;
 import com.project.ecommerce.common.exception.BusinessException;
+import com.project.ecommerce.common.util.GeneratorUtil;
+import com.project.ecommerce.domain.cart.entity.Carts;
+import com.project.ecommerce.domain.cart.service.CartService;
 import com.project.ecommerce.domain.dto.order.OrderData;
 import com.project.ecommerce.domain.dto.order.OrderItemData;
 import com.project.ecommerce.domain.dto.payment.status.PaymentGenerateData;
@@ -13,7 +16,8 @@ import com.project.ecommerce.domain.product.entity.ProductOption;
 import com.project.ecommerce.domain.product.entity.Products;
 import com.project.ecommerce.domain.product.service.ProductsService;
 import com.project.ecommerce.presentation.order.dto.request.CartOrderRequestDto;
-import com.project.ecommerce.presentation.order.dto.request.OrderRequestDto;
+import com.project.ecommerce.presentation.order.dto.request.OrderGenerateDto;
+import com.project.ecommerce.presentation.order.dto.response.OrderResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -33,9 +37,10 @@ public class OrderFacade {
     private final OrderService orderService;
     private final ProductsService productsService;
     private final PaymentService paymentService;
+    private final CartService cartService;
 
     @Transactional
-    public void generateOrderService(OrderRequestDto dto) {
+    public OrderResponseDto generateOrderService(OrderGenerateDto dto) {
 
         productsService.decreaseStock(dto.getOptionData());
 
@@ -54,10 +59,10 @@ public class OrderFacade {
             BigDecimal eachPrice = option.getAdditionalPrice().add(option.getProducts().getPrice()).multiply(BigDecimal.valueOf(stock));
             totalPrice = totalPrice.add(eachPrice);
 
-            orderItemsData.add(OrderItemData.builder().productId(option.getProducts().getId()).productName(option.getProducts().getProductName()).quantity(stock).totalPrice(eachPrice).build());
+            orderItemsData.add(OrderItemData.builder().productId(option.getProducts().getId()).productName(option.getProducts().getProductName()).quantity(stock).productOptionId(option.getId()).totalPrice(eachPrice).build());
         }
 
-        OrderData orderData = OrderData.builder().userId(dto.getUserId()).totalPrice(totalPrice).orderItem(orderItemsData).build();
+        OrderData orderData = OrderData.builder().orderId(GeneratorUtil.generateOrderNo()).userId(dto.getUserId()).totalPrice(totalPrice).orderItem(orderItemsData).build();
 
         Orders orders = orderService.generateOrder(orderData);
 
@@ -67,17 +72,23 @@ public class OrderFacade {
 
         paymentService.generatePayment(paymentData);
 
+        log.info("orderId : " + orders.getId());
+        return OrderResponseDto.builder().orderId(orders.getId()).totalPrice(orders.getTotalPrice().intValue()).build();
+
     }
 
     @Transactional
-    public void generateCartOrderService(CartEntityDto dto) {
+    public OrderResponseDto generateCartOrderService(CartEntityDto dto) {
         List<CartOrderRequestDto> requestDto = dto.getDto();
+        log.info("CartEntity_Dto : " + CartEntityDto.builder().toString());
 
         productsService.multiDecreaseStock(requestDto);
 
+        dto.setOrderId(GeneratorUtil.generateOrderNo());
         Orders order = Orders.toOrder(dto);
 
         for (CartOrderRequestDto orderData : requestDto) {
+            log.info("orderData_Dto : " + orderData.toString());
             ProductOption productOptionData = productsService.getProductOptionData(orderData.getProductOptionId());
             Products products = productOptionData.getProducts();
             if (Objects.isNull(productOptionData)) {
@@ -86,10 +97,7 @@ public class OrderFacade {
 
             // OrderItem -> productOption price + product price
             BigDecimal totalPrice = productOptionData.getAdditionalPrice().add(products.getPrice()).multiply(BigDecimal.valueOf(orderData.getQuantity()));
-            log.info("totalPrice : " + totalPrice);
-            log.info("productOptionData.getAdditionalPrice() : " + productOptionData.getAdditionalPrice());
-            log.info("products.getPrice() : " + products.getPrice());
-            log.info("orderData.getQuantity() : " + orderData.getQuantity());
+
             OrderItem orderItem = OrderItem.builder().productId(products.getId())
                     .productOptionId(productOptionData.getId())
                     .productName(orderData.getProductName())
@@ -98,6 +106,10 @@ public class OrderFacade {
                     .build();
 
             order.addTotalPrice(orderItem);
+
+            Carts cartData = cartService.findByCartId(orderData.getCartId());
+            cartData.updateStatus();
+
         }
 
         Orders orders = orderService.generateOrder(order);
@@ -107,6 +119,9 @@ public class OrderFacade {
                 .paymentPrice(orders.getTotalPrice()).build();
 
         paymentService.generatePayment(paymentData);
+
+
+        return OrderResponseDto.builder().orderId(orders.getId()).totalPrice(orders.getTotalPrice().intValue()).build();
 
     }
 

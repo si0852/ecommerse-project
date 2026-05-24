@@ -27,8 +27,7 @@ import java.util.Objects;
 public class Orders {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private String id;
 
     @Column(nullable = false)
     private String userId;
@@ -67,6 +66,7 @@ public class Orders {
 
     public static Orders toOrder(OrderData order) {
         return Orders.builder()
+                .id(order.getOrderId())
                 .userId(order.getUserId())
                 .totalPrice(order.getTotalPrice())
                 .orderStatus(OrderStatus.PENDING)
@@ -75,8 +75,13 @@ public class Orders {
 
     public static Orders toOrder(CartEntityDto cartOrder) {
         return Orders.builder()
+                .id(cartOrder.getOrderId())
                 .userId(cartOrder.getUserId())
                 .orderStatus(OrderStatus.PENDING)
                 .build();
+    }
+
+    public void updatePayCompleteStatus() {
+        this.orderStatus = OrderStatus.PAYMENT_COMPLETE;
     }
 }

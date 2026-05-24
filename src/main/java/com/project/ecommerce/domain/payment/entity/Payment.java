@@ -27,13 +27,19 @@ public class Payment {
     private long id;
 
     @Column(nullable = false)
-    private long orderId;
+    private String orderId;
 
     @Column(nullable = false)
     private String userId;
 
     @Column(nullable = false)
     private BigDecimal paymentPrice;
+
+    @Column(nullable = true)
+    private String approvedAt;
+
+    @Column(nullable = true)
+    private String paymentKey;
 
     @Enumerated(EnumType.STRING)
     private PaymentMethod paymentMethod;
@@ -57,5 +63,12 @@ public class Payment {
                 .paymentPrice(data.getPaymentPrice())
                 .paymentStatus(PaymentStatus.PENDING)
                 .build();
+    }
+
+    public void updateStatus(PaymentMethod paymentMethod, String paymentKey, String approvedAt) {
+        this.paymentStatus = PaymentStatus.PAYMENT_COMPLETE;
+        this.paymentMethod = paymentMethod;
+        this.paymentKey = paymentKey;
+        this.approvedAt = approvedAt;
     }
 }
