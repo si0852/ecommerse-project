@@ -20,13 +20,13 @@ import java.time.LocalDateTime;
 @Builder
 @EntityListeners(AuditingEntityListener.class)
 @Table(
-        name = "carts",
-        uniqueConstraints = {
-                @UniqueConstraint(
-                        name = "unique_user_product_option",
-                        columnNames = {"userId", "productOptionId", "cartStatus"}
-                )
-        }
+        name = "carts"
+//        uniqueConstraints = {
+//                @UniqueConstraint(
+//                        name = "unique_user_product_option",
+//                        columnNames = {"userId", "productOptionId", "cartStatus"}
+//                )
+//        }
 )
 public class Carts {
 

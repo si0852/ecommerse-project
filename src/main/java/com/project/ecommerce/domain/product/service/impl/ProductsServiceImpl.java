@@ -37,6 +37,11 @@ public class ProductsServiceImpl implements ProductsService {
     }
 
     @Override
+    public Products getProductsInfo(Long id) {
+        return productsRepository.findById(id).orElseThrow(() -> BusinessException.notFound("상품이 존재하지 않습니다."));
+    }
+
+    @Override
     public List<ProductsResponseDto> getProductsData() {
         List<Products> products = productsRepository.findAll();
 

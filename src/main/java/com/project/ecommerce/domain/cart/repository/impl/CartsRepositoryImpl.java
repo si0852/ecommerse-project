@@ -28,7 +28,7 @@ public class CartsRepositoryImpl implements CartRepositoryCustom {
 
         return queryFactory
                 .select(Projections.constructor(CartResponseDto.class,
-                        p.id, cart.id,p.productName, p.description,
+                        p.id, cart.id,p.productName, p.description, po.id,
                         po.optionName, cart.quantity,  p.price,  po.additionalPrice
                 ))
                 .from(cart)
